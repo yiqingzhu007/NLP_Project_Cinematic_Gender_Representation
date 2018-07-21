@@ -11,28 +11,28 @@ This project will help us to understand the general trend of gender representati
 To conduct this research, I used natural language processing techniques, specifically, Word2Vec and Doc2Vec models, to analyze the female and male roles in films through time.
 
 There are three aspects of analysis I’m focusing on: 
-(1) Study the semantic similarities of chick flicks and non chick flicks over time, to analyze the development of content for chick flicks; 
-(2) Study the yearly semantic change of words “woman, ” ‘’man,” “wife,” “husband,” “mother” and “father” in chick flicks and non chick flicks, to compare the difference of development for male and female roles between chick flicks and non chick flicks;
-(3) Define two lists of words indicating traditional masculine traits and feminine traits, and analyze the semantic distance of these traits to “woman” and “man” over time, to study the variation of female and male images in films.
+⋅⋅1. Study the semantic similarities of chick flicks and non chick flicks over time, to analyze the development of content for chick flicks; 
+⋅⋅2. Study the yearly semantic change of words “woman, ” ‘’man,” “wife,” “husband,” “mother” and “father” in chick flicks and non chick flicks, to compare the difference of development for male and female roles between chick flicks and non chick flicks;
+⋅⋅3. Define two lists of words indicating traditional masculine traits and feminine traits, and analyze the semantic distance of these traits to female and male roles over time, to study the variation of female and male images in films.
 
 ## Data
-The film data for this project was retrieved from Internet Movie Database (IMDb), including a historical data dump at ftp://ftp.funet.fi/pub/mirrors/ftp.imdb.com/pub/frozendata, a daily refreshed data dump maintained by [Amazon S3](https://www.imdb.com/interfaces/), and data collected using unofficial IMDb Python API [IMDbPY](https://imdbpy.sourceforge.io/). 
+The film data for this project was retrieved from Internet Movie Database (IMDb), including a historical data dump at ftp://ftp.funet.fi/pub/mirrors/ftp.imdb.com/pub/frozendata, a daily refreshed data dump maintained by [Amazon S3](https://datasets.imdbws.com/), and data collected using unofficial IMDb Python API [IMDbPY](https://imdbpy.sourceforge.io/). 
 
 Among 31,344 U.S. narrative feature films released between 2007 and 2017, I obtained in total 15,719 films with available plot summaries or synopses, and information including film title, country, runtime, released year, the gender of top-billing role, and genre.
 
 ## Scripts
-I have written several scripts to collect, clean, transform, and analyze the data.
+**I have written several scripts to collect, clean, transform, and analyze the data.**
 
 ### 1_extract_valid_movies (SQL & Python)
-After downloading the raw datasets from ftp://ftp.funet.fi/pub/mirrors/ftp.imdb.com/pub/frozendata, I parsed them into an SQLite dataset using a [script](https://github.com/alberanid/imdbpy/blob/master/bin/imdbpy2sql.py) supported by IMDbPY. The raw database is 9.15 GB.
+After downloading the raw datasets from ftp://ftp.funet.fi/pub/mirrors/ftp.imdb.com/pub/frozendata, I parsed them into a SQLite database using a [script](https://github.com/alberanid/imdbpy/blob/master/bin/imdbpy2sql.py) supported by IMDbPY. The database is 9.15 GB.
 
-Then I filtered out the U.S. feature narrative movies released between 2007 and 2017. Since this data dump does not contain IMDbID, a unique movie id identifying each movie on imdb.com, I matched the filtered movies with those in the Amazon S3 data dump.
+Then I filtered the U.S. feature narrative movies released between 2007 and 2017. Since this data dump does not contain IMDbID, a unique movie id identifying each movie on imdb.com, I matched the filtered movies with those in the Amazon S3 data dump and obtained the IMDbID for each movie.
 
 ### 2_fetch_synopsis.py (Python)
-Because neither of the data dumps contains film synopsis data, I used IMDbPY to collect synopsis for each film based on the IMDbID obtained from the previous step.
+Because neither of the data dumps contains film synopsis data, I used IMDbPY to collect synopsis for each movie based on the IMDbID obtained from the previous step.
 
 ### 3_extract_info (SQL & Python)
-I collected genre, gender of the top-billing role and longest plot for each movie. The 3 cleaned data files ready for analysis are `films.csv`, `genre.csv`, and `top_billing.csv`.
+I collected genre, gender of the top-billing role and longest plot for each movie from the SQLite database. The 3 cleaned data files ready for analysis are `films.csv`, `genre.csv`, and `top_billing.csv`.
 
 ### 4_analysis.ipynb (Python)
 In this Jupyter Notebook, I did some preliminary analysis including generating the two plots required in the SemiFinal Challenge.
