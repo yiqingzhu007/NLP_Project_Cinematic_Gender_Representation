@@ -36,3 +36,6 @@ I collected genre, gender of the top-billing role and longest plot for each movi
 
 ### 4_analysis.ipynb (Python)
 In this Jupyter Notebook, I did some preliminary analysis including generating the two plots required in the SemiFinal Challenge.
+
+## Preliminary Results
+The preliminary analysis I have conducted suggests that in the past decade, the male roles in American cinema were substantively emasculated while the female roles were increasingly feminized.
