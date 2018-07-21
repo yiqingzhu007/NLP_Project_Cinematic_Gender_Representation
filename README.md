@@ -11,9 +11,9 @@ This project will help us to understand the general trend of gender representati
 To conduct this research, I used natural language processing techniques, specifically, Word2Vec and Doc2Vec models, to analyze the female and male roles in films through time.
 
 There are three aspects of analysis I’m focusing on: 
-⋅⋅1. Study the semantic similarities of chick flicks and non chick flicks over time, to analyze the development of content for chick flicks; 
-⋅⋅2. Study the yearly semantic change of words “woman, ” ‘’man,” “wife,” “husband,” “mother” and “father” in chick flicks and non chick flicks, to compare the difference of development for male and female roles between chick flicks and non chick flicks;
-⋅⋅3. Define two lists of words indicating traditional masculine traits and feminine traits, and analyze the semantic distance of these traits to female and male roles over time, to study the variation of female and male images in films.
+   1. Study the semantic similarities of chick flicks and non chick flicks over time, to analyze the development of content for chick flicks; 
+   2. Study the yearly semantic change of words “woman, ” ‘’man,” “wife,” “husband,” “mother” and “father” in chick flicks and non chick flicks, to compare the difference of development for male and female roles between chick flicks and non chick flicks;
+   3. Define two lists of words indicating traditional masculine traits and feminine traits, and analyze the semantic distance of these traits to female and male roles over time, to study the variation of female and male images in films.
 
 ## Data
 The film data for this project was retrieved from Internet Movie Database (IMDb), including a historical data dump at ftp://ftp.funet.fi/pub/mirrors/ftp.imdb.com/pub/frozendata, a daily refreshed data dump maintained by [Amazon S3](https://datasets.imdbws.com/), and data collected using unofficial IMDb Python API [IMDbPY](https://imdbpy.sourceforge.io/). 
