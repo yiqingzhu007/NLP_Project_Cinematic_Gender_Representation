@@ -1,0 +1,137 @@
+# PYTHON
+
+# Get valid movie id
+
+ipython3
+
+import pandas as pd
+valid_movie_id = pd.read_csv('movie_synopsis.csv')
+valid_movie_id.id.to_csv('valid_movie_id.csv', index=False)
+
+
+# SQL
+
+# Create a temp table with valid movie id
+
+sqlite3
+
+.open imdb.db
+.headers on
+
+DROP TABLE IF EXISTS valid_movies;
+CREATE TEMP TABLE valid_movies (id INTEGER);
+
+.separator ","
+.import valid_movie_id.csv valid_movies
+
+
+# Extract plot summary
+
+.mode csv
+.output plot_dup.csv
+
+SELECT valid_movies.id, movie_info.info AS plot
+FROM valid_movies INNER JOIN movie_info
+ON valid_movies.id = movie_info.movie_id
+WHERE movie_info.info_type_id = 98;
+
+
+# Extract keyword
+
+.mode csv
+.output keyword.csv
+
+SELECT DISTINCT valid_movies.id, A.keyword
+FROM valid_movies
+INNER JOIN (SELECT DISTINCT movie_keyword.movie_id, GROUP_CONCAT(keyword.keyword) AS keyword
+FROM movie_keyword INNER JOIN keyword
+ON movie_keyword.keyword_id = keyword.id
+GROUP BY movie_keyword.movie_id) A
+ON valid_movies.id = A.movie_id;
+
+
+# Extract genre
+
+.mode csv
+.output genre.csv
+
+SELECT valid_movies.id, movie_info.info AS genre
+FROM valid_movies INNER JOIN movie_info
+ON valid_movies.id = movie_info.movie_id
+WHERE movie_info.info_type_id = 3;
+
+
+# Extract gender of top-billing role
+
+.mode csv
+.output top_billing.csv
+
+SELECT DISTINCT valid_movies.id, cast_info.role_id AS gender
+FROM valid_movies INNER JOIN cast_info
+ON valid_movies.id = cast_info.movie_id
+WHERE cast_info.nr_order = 1
+AND (cast_info.role_id = 1 OR cast_info.role_id = 2);
+
+
+# PYTHON
+
+ipython3
+
+import pandas as pd
+
+# Extract the longest plot
+
+plot_dup = pd.read_csv('plot_dup.csv')
+plot_dup['word_count'] = plot_dup['plot'].str.split().str.len()
+plot = plot_dup.loc[plot_dup.groupby(['id']).word_count.idxmax()]
+plot.to_csv('plot.csv', columns = ['id', 'plot'], index = False)
+
+
+# check muptiple match
+
+synopsis = pd.read_csv('movie_synopsis.csv')
+a = synopsis.groupby('id').count() 
+a[a['year'] > 1]
+
+synopsis = synopsis[synopsis['id'] != 3524566]
+synopsis = synopsis[synopsis['id'] != 4011486]
+synopsis = synopsis[synopsis['id'] != 4472256]
+synopsis = synopsis[synopsis['tconst'] != 'tt8183732']
+synopsis = synopsis[synopsis['tconst'] != 'tt1553919']
+synopsis.reset_index()
+
+
+# Join synopsis and plot
+
+plot = pd.read_csv('plot.csv')
+
+films = pd.merge(synopsis, plot, on='id', how='left')
+
+
+# If no synopsis, fill with plot summary
+
+films['synopsis'] = films['synopsis'].fillna(films['plot'])
+
+
+# drop films with no synopsis info
+
+films1 = films[['tconst', 'id', 'primaryTitle', 'year', 'synopsis']]
+films1 = films1.dropna(axis=0, how='any')
+
+
+# Join with keyword
+
+keyword = pd.read_csv('keyword.csv')
+
+films2 = pd.merge(films1, keyword, on='id', how='left')
+
+
+# Write to csv
+
+films2.to_csv('films.csv', header=['tconst', 'id', 'title', 'year', 'synopsis', 'keyword'], index=False)
+
+## Count: 15719
+
+
+
+
