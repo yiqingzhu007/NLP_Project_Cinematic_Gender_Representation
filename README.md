@@ -1,7 +1,7 @@
-# The-Data-Incubator-Capstone-Project
+# NLP Project: Cinematic Gender Representation
 
 ## Introduction
-The project I propose to work on while at The Data Incubator aims to quantify the variation of cinematic gender representation in the past decade, especially after the 2008 Great Recession.
+The project I propose aims to quantify the variation of cinematic gender representation in the past decade, especially after the 2008 Great Recession.
 
 Cultural studies scholars have accused the early Hollywood movies of fortifying traditional images of women and men. However, there have been tremendous gains for gender equality in many spheres of American life including in the entertainment industry and cinematic representation. Inspired by recent editorials about emasculated female roles in some films, I want to systematically search for quantitative evidence about the gender representation in the American films, and to better understand how women and men are portrayed in contemporary films.
 
